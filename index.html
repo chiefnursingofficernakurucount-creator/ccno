@@ -2,37 +2,46 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Evidence Upload</title>
+  <title>Evidence Upload Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 30px;
+      background: #f9fafb;
+      margin: 0;
+      padding: 2rem;
     }
     .container {
-      max-width: 500px;
+      max-width: 600px;
       margin: auto;
-      padding: 20px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
-    input, select, button {
-      display: block;
-      width: 100%;
-      margin: 10px 0;
-      padding: 10px;
+    h2 { text-align: center; }
+    label { font-weight: bold; display: block; margin-top: 1rem; }
+    input, select {
+      width: 100%; padding: 0.6rem; margin-top: 0.3rem;
+      border: 1px solid #ddd; border-radius: 6px;
     }
-    .success { color: green; }
-    .error { color: red; }
+    button {
+      margin-top: 1.5rem; width: 100%; padding: 0.8rem;
+      background: #2563eb; color: white; border: none;
+      border-radius: 6px; font-size: 1rem; cursor: pointer;
+    }
+    button:hover { background: #1d4ed8; }
+    .msg { margin-top: 1rem; font-weight: bold; }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>📤 Upload Evidence</h2>
+    <h2>📂 Evidence Upload</h2>
     <form id="uploadForm">
-      <label>Evidence Name:</label>
+      <label>Evidence Name</label>
       <input type="text" name="evidenceName" required>
 
-      <label>Category:</label>
+      <label>Category</label>
       <select name="category" required>
         <option value="">-- Select Category --</option>
         <option>C14 ANC (Antenatal Care)</option>
@@ -49,47 +58,42 @@
         <option>C11 In-Patient Services Improved</option>
       </select>
 
-      <label>Sub-County:</label>
-      <input type="text" name="subCounty" required>
+      <label>Sub County</label>
+      <input type="text" name="subCounty" required placeholder="e.g. Nakuru West">
 
-      <label>Upload Files:</label>
-      <input type="file" name="files" id="files" multiple required>
+      <label>Upload Files (Max 30MB each, multiple allowed)</label>
+      <input type="file" name="files" multiple required>
 
-      <button type="submit">Upload</button>
+      <button type="submit">🚀 Upload</button>
     </form>
-
-    <p id="status"></p>
+    <div class="msg" id="msg"></div>
   </div>
 
   <script>
-    const form = document.getElementById("uploadForm");
-    const statusEl = document.getElementById("status");
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw16L6f-jTcXqRYm_nmvoLY72wlidYqflmou05SsSPdFAuocTAOD4rwwPjfS5o1HcMB/exec";
+    const UPLOAD_URL = "https://script.google.com/macros/s/AKfycbw16L6f-jTcXqRYm_nmvoLY72wlidYqflmou05SsSPdFAuocTAOD4rwwPjfS5o1HcMB/exec";
 
-    form.addEventListener("submit", async (e) => {
+    document.getElementById("uploadForm").addEventListener("submit", async (e) => {
       e.preventDefault();
-      statusEl.textContent = "⏳ Uploading...";
-      statusEl.className = "";
+      const msg = document.getElementById("msg");
+      msg.textContent = "⏳ Uploading... Please wait";
 
-      const formData = new FormData(form);
+      const formData = new FormData(e.target);
 
       try {
-        const response = await fetch(WEB_APP_URL, {
+        const res = await fetch(UPLOAD_URL, {
           method: "POST",
           body: formData
         });
 
-        const result = await response.json();
-        if (result.success) {
-          statusEl.textContent = result.message;
-          statusEl.className = "success";
+        const data = await res.json();
+        if (data.success) {
+          msg.textContent = "✅ Upload successful!";
+          console.log("Uploaded files:", data.files);
         } else {
-          statusEl.textContent = result.message;
-          statusEl.className = "error";
+          msg.textContent = "❌ Error: " + data.error;
         }
       } catch (err) {
-        statusEl.textContent = "❌ Upload failed: " + err.message;
-        statusEl.className = "error";
+        msg.textContent = "⚠️ Upload failed: " + err.message;
       }
     });
   </script>
