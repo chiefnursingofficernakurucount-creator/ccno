@@ -1,87 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Evidence Upload Portal</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Evidence Upload</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 40px; background: #f7f7f7; }
-    .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
-    h2 { text-align: center; }
-    label { display: block; margin-top: 15px; font-weight: bold; }
-    input, select { width: 100%; padding: 10px; margin-top: 5px; border-radius: 4px; border: 1px solid #ccc; }
-    button { margin-top: 20px; padding: 12px; width: 100%; background: #28a745; border: none; color: white; font-size: 16px; cursor: pointer; border-radius: 4px; }
-    button:hover { background: #218838; }
-    #status { margin-top: 20px; text-align: center; font-weight: bold; }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #f7f7f7;
+    }
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 500px;
+      margin: auto;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    label {
+      font-weight: bold;
+      margin-top: 10px;
+      display: block;
+    }
+    select, input, button {
+      width: 100%;
+      margin-top: 5px;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background: #4CAF50;
+      color: white;
+      cursor: pointer;
+      border: none;
+      font-weight: bold;
+    }
+    button:hover {
+      background: #45a049;
+    }
+    #status {
+      margin-top: 15px;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <h2>📂 Upload Evidence</h2>
+
     <form id="uploadForm">
-      
       <label for="evidenceName">Evidence Name</label>
-      <input type="text" id="evidenceName" name="evidenceName" required />
-      
-      <label for="category">Category</label>
+      <input type="text" id="evidenceName" name="evidenceName" required>
+
+      <label for="category">Evidence Category</label>
       <select id="category" name="category" required>
         <option value="">-- Select Category --</option>
-        <option value="C02 Referral System Improved">C02 Referral System Improved</option>
-        <option value="C04 Operationalization of Health Facilities to Better Services">C04 Operationalization of Health Facilities to Better Services</option>
-        <option value="C10 Theater Services Improved">C10 Theater Services Improved</option>
-        <option value="C11 In-Patient Services Improved">C11 In-Patient Services Improved</option>
-        <option value="C14 ANC (Antenatal Care)">C14 ANC (Antenatal Care)</option>
-        <option value="C15 POSTNATAL CARE">C15 POSTNATAL CARE</option>
-        <option value="C16 MPDSR (Maternal and Perinatal Death Surveillance and Response)">C16 MPDSR (Maternal and Perinatal Death Surveillance and Response)</option>
-        <option value="C17 FAMILY PLANNING">C17 FAMILY PLANNING</option>
-        <option value="C18 IMMUNIZATION">C18 IMMUNIZATION</option>
-        <option value="C21 HIV SERVICES">C21 HIV SERVICES</option>
-        <option value="C23 BURDEN OF CANCER REDUCED">C23 BURDEN OF CANCER REDUCED</option>
-        <option value="C27 SUPPORT SUPERVISION">C27 SUPPORT SUPERVISION</option>
+        <option>C14 ANC (Antenatal Care)</option>
+        <option>C15 POSTNATAL CARE</option>
+        <option>C16 MPDSR (Maternal and Perinatal Death Surveillance and Response)</option>
+        <option>C17 FAMILY PLANNING</option>
+        <option>C18 IMMUNIZATION</option>
+        <option>C21 HIV SERVICES</option>
+        <option>C23 BURDEN OF CANCER REDUCED</option>
+        <option>C27 SUPPORT SUPERVISION</option>
+        <option>C02 Referral System Improved</option>
+        <option>C04 Operationalization of Health Facilities to Better Services</option>
+        <option>C10 Theater Services Improved</option>
+        <option>C11 In-Patient Services Improved</option>
       </select>
-      
-      <label for="subCounty">Sub County</label>
+
+      <label for="subCounty">Sub-county</label>
       <select id="subCounty" name="subCounty" required>
-        <option value="">-- Select Sub County --</option>
-        <option value="Bahati">Bahati</option>
-        <option value="Gilgil">Gilgil</option>
-        <option value="Kuresoi North">Kuresoi North</option>
-        <option value="Kuresoi South">Kuresoi South</option>
-        <option value="Molo">Molo</option>
-        <option value="Naivasha">Naivasha</option>
-        <option value="Nakuru Town East">Nakuru Town East</option>
-        <option value="Nakuru Town West">Nakuru Town West</option>
-        <option value="Njoro">Njoro</option>
-        <option value="Rongai">Rongai</option>
-        <option value="Subukia">Subukia</option>
+        <option value="">-- Select Sub-county --</option>
+        <option>Kibra</option>
+        <option>Lang'ata</option>
+        <option>Embakasi</option>
+        <option>Westlands</option>
+        <option>Kasarani</option>
+        <option>Dagoretti</option>
+        <option>Makadara</option>
+        <option>Starehe</option>
+        <option>Mathare</option>
       </select>
-      
-      <label for="files">Upload Files (max 30MB each)</label>
-      <input type="file" id="files" name="files" multiple required />
-      
-      <button type="submit">Upload</button>
+
+      <label for="files">Upload Files (Max 30MB each)</label>
+      <input type="file" id="files" name="files" multiple required>
+
+      <button type="submit">🚀 Upload</button>
     </form>
+
     <div id="status"></div>
   </div>
 
   <script>
     const form = document.getElementById("uploadForm");
     const statusDiv = document.getElementById("status");
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw16L6f-jTcXqRYm_nmvoLY72wlidYqflmou05SsSPdFAuocTAOD4rwwPjfS5o1HcMB/exec";
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      statusDiv.innerHTML = "⏳ Uploading... Please wait.";
+      statusDiv.textContent = "⏳ Uploading...";
 
       const formData = new FormData(form);
+
       try {
-        const response = await fetch(WEB_APP_URL, {
+        const response = await fetch("https://script.google.com/macros/s/AKfycbyDLekB2jJGOxNxA3qysa61ektBzx9OcGVqcsiP3Vof_Wapu5l8D9rJK1szLZ09tbkD/exec", {
           method: "POST",
-          body: formData,
+          body: formData
         });
-        const text = await response.text();
-        statusDiv.innerHTML = text.includes("✅") ? text : "❌ " + text;
+
+        const result = await response.json();
+
+        if (result.success) {
+          statusDiv.textContent = "✅ " + result.message;
+        } else {
+          statusDiv.textContent = "❌ " + result.error;
+        }
       } catch (err) {
-        statusDiv.innerHTML = "❌ Upload failed: " + err.message;
+        statusDiv.textContent = "⚠️ Upload failed: " + err.message;
       }
     });
   </script>
